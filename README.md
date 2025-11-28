@@ -1,4 +1,4 @@
-# 💸 FinSense AI — AI-Powered Personal Finance Agent
+# 💸 FinSense- AI-Powered Personal Finance Agent
 
 > A smart, modular, agent-based personal finance assistant built using **LangChain**, **LangGraph**, **Gemini Pro**, and **FAISS**.  
 > From tracking expenses to providing contextual financial insights — your AI-driven wallet just got an upgrade.
@@ -42,5 +42,15 @@ This upgraded version introduces major architectural improvements:
 - **Backend (Optional):** FastAPI  
 - **Frontend:** Streamlit or React  
 - **Utilities:** tiktoken, pydantic, numexpr, dateparser  
+
+---
+
+## 📦 Example Prompts
+
+"Log $45 spent on groceries at Walmart yesterday"
+"How much did I spend on transportation this month?"
+"Am I saving more than last month?"
+"List and summarize all my subscriptions"
+"Based on my salary, what should be my ideal monthly budget?"
 
 ---
