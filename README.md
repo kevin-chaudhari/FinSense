@@ -47,11 +47,11 @@ This upgraded version introduces major architectural improvements:
 
 ## Example Prompts
 
--Log $45 spent on groceries at Walmart yesterday
--How much did I spend on transportation this month?
--Am I saving more than last month?
--List and summarize all my subscriptions
--Based on my salary, what should be my ideal monthly budget?
+- Log $45 spent on groceries at Walmart yesterday
+- How much did I spend on transportation this month?
+- Am I saving more than last month?
+- List and summarize all my subscriptions
+- Based on my salary, what should be my ideal monthly budget?
 
 ---
 
