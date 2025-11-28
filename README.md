@@ -47,7 +47,7 @@ This upgraded version introduces major architectural improvements:
 
 ## 📦 Example Prompts
 
-```txt
+
 "Log $45 spent on groceries at Walmart yesterday"
 "How much did I spend on transportation this month?"
 "Am I saving more than last month?"
@@ -93,5 +93,5 @@ python main.py
 ---
 
 ### 👤 Author
-Divyansh Pradhan
-📧 divyansh.pradhan@stonybrook.edu
+Kevinkumar Chaudhari
+📧 chaudharikevin21@gmail.com
