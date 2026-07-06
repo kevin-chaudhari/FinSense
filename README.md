@@ -896,6 +896,6 @@ MIT License — see [LICENSE](LICENSE) for details.
 
 **Built with ❤️ by Kevinkumar Chaudhari**
 
-[GitHub](https://github.com/your-username) · [Email](mailto:chaudharikevin21@gmail.com)
+[GitHub](https://github.com/kevin-chaudhari) · [Email](mailto:chaudharikevin21@gmail.com)
 
 </div>
