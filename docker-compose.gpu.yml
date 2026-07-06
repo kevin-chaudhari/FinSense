@@ -1,0 +1,54 @@
+version: "3.9"
+
+# GPU-accelerated Docker Compose
+# Requirements:
+#   - nvidia-docker2 or NVIDIA Container Toolkit
+#   - NVIDIA driver 525.60+
+#   - CUDA 12.1+
+#
+# Usage: docker compose -f docker-compose.gpu.yml up --build
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.gpu
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend/data:/app/data
+      - ./backend/logs:/app/logs
+    environment:
+      - ENVIRONMENT=production
+      - ENABLE_GPU=true
+      - FAISS_USE_GPU=true
+      - MIXED_PRECISION=true
+    env_file:
+      - ./backend/.env
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://backend:8000
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped

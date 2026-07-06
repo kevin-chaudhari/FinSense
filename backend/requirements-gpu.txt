@@ -1,0 +1,42 @@
+# FinSense AI Backend — GPU/CUDA Requirements
+# CUDA 12+ required. Install with:
+#   pip install -r requirements-gpu.txt
+#
+# ⚠️  Install PyTorch CUDA separately FIRST:
+#   pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+
+# ── All CPU requirements ──────────────────────────────────────────────────────
+-r requirements.txt
+
+# ── Replace faiss-cpu with faiss-gpu ─────────────────────────────────────────
+# faiss-cpu is already in requirements.txt — uninstall and install GPU version:
+# pip uninstall faiss-cpu -y && pip install faiss-gpu>=1.7.4
+
+# ── GPU Acceleration Libraries ───────────────────────────────────────────────
+
+# PyTorch CUDA (install manually above — version-specific)
+# torch>=2.4.0  # Installed via --index-url for correct CUDA version
+
+# Sentence Transformers (optional: local GPU embeddings)
+sentence-transformers>=3.3.0
+
+# ONNX Runtime GPU (optional: faster inference)
+# onnxruntime-gpu>=1.20.0
+
+# BitsAndBytes (optional: 4-bit/8-bit quantization for local LLMs)
+# bitsandbytes>=0.44.0
+
+# Accelerate (optional: HuggingFace GPU acceleration)
+accelerate>=1.1.0
+
+# CuPy (optional: CUDA array operations)
+# cupy-cuda12x>=13.0.0
+
+# RAPIDS cuDF (optional: GPU DataFrame operations)
+# cudf-cu12>=24.10.0
+
+# Flash Attention 2 (optional: faster attention on Ampere+ GPUs)
+# flash-attn>=2.6.3  # Requires CUDA 11.6+ and a compatible GPU
+
+# NVIDIA TensorRT (optional: inference optimization)
+# tensorrt>=10.0.0

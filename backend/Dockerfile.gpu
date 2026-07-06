@@ -1,0 +1,57 @@
+# FinSense AI Backend — GPU/CUDA Docker Image
+# Requires: nvidia-docker2 + NVIDIA Container Toolkit
+# Base: CUDA 12.1 + cuDNN 8 + Ubuntu 22.04
+
+FROM nvidia/cuda:12.1.1-cudnn8-runtime-ubuntu22.04
+
+# System dependencies
+RUN apt-get update && apt-get install -y \
+    python3.11 \
+    python3.11-pip \
+    python3.11-dev \
+    curl \
+    gcc \
+    g++ \
+    libopenblas-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1
+RUN update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
+
+WORKDIR /app
+
+# Install PyTorch CUDA before other requirements
+RUN pip install --no-cache-dir \
+    torch torchvision torchaudio \
+    --index-url https://download.pytorch.org/whl/cu121
+
+# Install GPU requirements (includes faiss-gpu)
+COPY requirements-gpu.txt .
+# Remove faiss-cpu line and install faiss-gpu
+RUN grep -v "faiss-cpu" requirements-gpu.txt > requirements-gpu-clean.txt && \
+    pip install --no-cache-dir -r requirements-gpu-clean.txt && \
+    pip install --no-cache-dir faiss-gpu
+
+# Copy application
+COPY . .
+
+# Create data directories
+RUN mkdir -p data/users data/vector_stores data/conversations logs
+
+# Non-root user
+RUN useradd -m -u 1001 finsense && chown -R finsense:finsense /app
+USER finsense
+
+EXPOSE 8000
+
+# GPU-aware health check
+HEALTHCHECK --interval=30s --timeout=15s --start-period=40s --retries=3 \
+    CMD curl -f http://localhost:8000/api/v1/health || exit 1
+
+# Enable GPU environment variables
+ENV ENABLE_GPU=true
+ENV FAISS_USE_GPU=true
+ENV MIXED_PRECISION=true
+ENV CUDA_VISIBLE_DEVICES=0
+
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "1"]
